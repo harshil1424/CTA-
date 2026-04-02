@@ -1,29 +1,34 @@
-#!/usr/bin/env python3
-
-from fare_calculator import calculate_fare, display_fare
-from validators import get_zone_input
+from validators import stations, get_station, get_passenger_type
+from fare_calculator import calculate_zones, calculate_fare, display_ticket
 
 
 def main():
-    print("=" * 40)
-    print("CTA Ticketing System")
-    print("Zone Fare Calculator")
-    print("=" * 40)
+
+    print("=================================")
+    print("Centrala Transport Authority")
+    print("Underground Ticketing System")
+    print("=================================")
 
     while True:
-        print("\n--- New Ticket Calculation ---")
 
-        origin = get_zone_input("Enter departure zone: ")
-        destination = get_zone_input("Enter destination zone: ")
+        passenger_type = get_passenger_type()
 
-        fare = calculate_fare(origin, destination)
+        origin = get_station("Enter departure station: ")
+        destination = get_station("Enter destination station: ")
 
-        display_fare(origin, destination, fare)
+        origin_zone = stations[origin]
+        destination_zone = stations[destination]
 
-        choice = input("\nDo you want to calculate another fare? (y/n): ")
+        zones = calculate_zones(origin_zone, destination_zone)
 
-        if choice.lower() != 'y':
-            print("Thank you for using the system.")
+        fare = calculate_fare(origin_zone, destination_zone, passenger_type)
+
+        display_ticket(origin, destination, zones, passenger_type, fare)
+
+        again = input("\nDo you want another ticket? (y/n): ")
+
+        if again.lower() != "y":
+            print("Thank you for using CTA ticket system")
             break
 
 
