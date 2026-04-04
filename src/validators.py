@@ -11,18 +11,24 @@ stations = {
 
 def get_station(message):
 
+    station_list = list(stations.keys())
+
     while True:
 
         print("\nAvailable Stations:")
-        for station in stations:
-            print("-", station)
+        for i, station in enumerate(station_list, 1):
+            print(f"{i}. {station}")
 
-        name = input(message)
+        try:
+            choice = int(input(message))
 
-        if name in stations:
-            return name
-        else:
-            print("Station not found. Please enter a valid station name.")
+            if 1 <= choice <= len(station_list):
+                return station_list[choice - 1]
+            else:
+                print("Invalid number. Please choose a valid station.")
+
+        except ValueError:
+            print("Please enter a number.")
 
 
 def get_passenger_type():
